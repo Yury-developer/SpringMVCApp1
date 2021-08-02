@@ -60,6 +60,19 @@
       <version>3.0.11.RELEASE</version>
     </dependency>
 
+    <!--
+      Добавляем эту зависимость в уроке 16
+      (Spring Framework. Урок 16: Spring MVC. Конфигурация с помощью Java кода.)
+      Она используется абстрактным классом 'AbstractAnnotationConfigDispatcherServletInitializer'
+      в файле 'MySpringMvcDispatcherSerlvetIntitializer'
+    -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
 
 

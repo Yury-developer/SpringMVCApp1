@@ -1,14 +1,14 @@
-# урок 15
+# урок 16
 
 ---
 
-## Spring Framework. Урок 15: Spring MVC. Первое приложение.
+## Spring Framework. Урок 16: Spring MVC. Конфигурация с помощью Java кода.
 
 ---
 
-* видео урока:   https://www.youtube.com/watch?v=BgE5DoIN6Bs&list=PLAma_mKffTOR5o0WNHnY0mTjKxnCgSXrZ&index=15
+* видео урока:   https://youtu.be/A4iCQYoI4Cs
 
-* репозиторий урока:   https://github.com/NeilAlishev/SpringCourse/tree/master/Lesson15.SpringMVCApp1
+* репозиторий урока:   https://github.com/NeilAlishev/SpringCourse/tree/master/Lesson16.SpringMVCAppJavaConfig
 
 ---
 
