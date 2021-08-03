@@ -1,14 +1,12 @@
-# урок 17
+# урок 18
 
 ---
 
-## Spring Framework. Урок 17: Контроллеры. Аннотация @Controller.
+## Spring Framework. Урок 18: Протокол HTTP. Методы GET и POST.
 
 ---
 
-* видео урока:   https://youtu.be/JHTqKQgrVKE
+* видео урока:   https://youtu.be/5fzX70ODuoI
 
-* репозиторий урока:   https://github.com/NeilAlishev/SpringCourse/tree/master/Lesson17.SpringControllersIntro
-
----
+* репозиторий урока:   _c прошлого урока_
 
