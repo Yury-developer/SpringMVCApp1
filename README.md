@@ -1,14 +1,14 @@
-# урок 16
+# урок 17
 
 ---
 
-## Spring Framework. Урок 16: Spring MVC. Конфигурация с помощью Java кода.
+## Spring Framework. Урок 17: Контроллеры. Аннотация @Controller.
 
 ---
 
-* видео урока:   https://youtu.be/A4iCQYoI4Cs
+* видео урока:   https://youtu.be/JHTqKQgrVKE
 
-* репозиторий урока:   https://github.com/NeilAlishev/SpringCourse/tree/master/Lesson16.SpringMVCAppJavaConfig
+* репозиторий урока:   https://github.com/NeilAlishev/SpringCourse/tree/master/Lesson17.SpringControllersIntro
 
 ---
 

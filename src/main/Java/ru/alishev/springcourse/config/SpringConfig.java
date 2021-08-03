@@ -15,7 +15,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 
 @Configuration   // эта конфигурация полностью эквивалентна .xml конфигу в 'applicationContextMVC.xml'
-@ComponentScan("ru.alishev.springcourse")   // тот пакет, где лежит КОНТРОЛЛЕР
+@ComponentScan("ru.alishev.springcourse")   // !!!СКАНИРОВАТЬСЯ БУДУТ ТАК-ЖЕ И ПОДПАПКИ!!!
 @EnableWebMvc   // равноценна тэгу '<mvc:annotation-driven/>' в файле 'applicationContextMVC.xml'
 public class SpringConfig implements WebMvcConfigurer {
     /*
