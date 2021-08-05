@@ -1,12 +1,12 @@
-# урок 18
+# урок 19
 
 ---
 
-## Spring Framework. Урок 18: Протокол HTTP. Методы GET и POST.
+## Spring Framework. Урок 19: Параметры GET запроса. Аннотация @RequestParam.
 
 ---
 
-* видео урока:   https://youtu.be/5fzX70ODuoI
+* видео урока:   https://youtu.be/Nn-kRhn2znw
 
-* репозиторий урока:   _c прошлого урока_
+* репозиторий урока:   https://github.com/NeilAlishev/SpringCourse/tree/master/Lesson19.SpringRequestParameters
 
