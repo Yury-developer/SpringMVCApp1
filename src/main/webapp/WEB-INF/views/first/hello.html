@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>This page 'Hello'</title>
@@ -8,7 +8,12 @@
 <h1>page   Hello!<br><br></h1>
 
 <a href="/first/goodbye"><h3><br>Say goodbye<br></h3></a> or <a href="/exit"><h3><br>Exit<br></h3></a>
-or <a href="/first/hello?name=Tom&surname=Jone"><br><br>Request with parameters</a>
+or <a href="/first/hello?name=Tom&surname=Jone"><br><br>Request with parameters <br></a>
+or <a href="/first/hello"><br>Request without parameters</a>
+
+<!--Обращаемся к ключу "message", timelife увидев этот код обратится к модели,-->
+<!--получит значение по ключу "message" и вставит это значение в пространство тэга <p/>...-->
+<p th:text="${message}"/>
 
 </body>
 </html>

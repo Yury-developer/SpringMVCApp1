@@ -1,12 +1,12 @@
-# урок 19
+# урок 20
 
 ---
 
-## Spring Framework. Урок 19: Параметры GET запроса. Аннотация @RequestParam.
+## Spring Framework. Урок 20: Модель. Передача данных от контроллера к представлению.
 
 ---
 
-* видео урока:   https://youtu.be/Nn-kRhn2znw
+* видео урока:   https://youtu.be/S8QgGX8HA9k
 
-* репозиторий урока:   https://github.com/NeilAlishev/SpringCourse/tree/master/Lesson19.SpringRequestParameters
+* репозиторий урока:   https://github.com/NeilAlishev/SpringCourse/tree/master/Lesson20.IntroToModel
 
