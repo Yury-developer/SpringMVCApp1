@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Все люди</title>
+</head>
+
+<body>
+
+
+<div th:each="person : ${people}">
+    <!-- пройдемся аналогом цикла for-each (java) по всем элементам коллекции-->
+
+    <!--'people' -название коллекции, 'person' -та переменная, которая будет указывать на элемент этой коллекции-->
+
+    <!-- тут уже внутри переменной 'person' будет лежать каждый из людей 'people' -коллекции-->
+    <!--имя человека 'user' внутри тэга <a>user</a> будет вставляться thymeleaf динамически вызывая getter у класса person
+    т.е. <a>th:text="${person.getName()}">user</a> выведет просто список из имен.
+    НО нам нужно, чтобы были ссылки, нажимая на которую мы переходили на страницу каждого человека
+    '/people/{id}' -тот адрес, на кот.нужно переходить, '(id=${person.getId()})' -значение для этого id
+    https://www.youtube.com/watch?v=D58pIymCew4&t=31m11s
+    -->
+    <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getName()}">user</a>
+    <!--эта строка будет нас отправлять на контроллер 'PeopleController' в метод 'show(@PathVariable("id") int id, Model model)'
+    Теперь реализуем эту страницу (см. show.html)-->
+
+</div>
+
+</body>
+
+</html>
