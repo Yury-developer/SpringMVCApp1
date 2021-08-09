@@ -1,8 +1,8 @@
-# урок 21
+# урок 22
 
 > ---
 > 
-> ## Spring Framework. Урок 21: CRUD, REST, Паттерн DAO (Data Access Object).
+> ## Spring Framework. Урок 22: Аннотация @ModelAttribute. HTML Формы (Thymeleaf).
 > 
 > ---
 > 
