@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>New person -ADD</title>
+</head>
+
+
+<body>
+
+
+<!-- метод -"POST"; -->
+<!-- будет обращаться и передовать свои данные  на адрес '/people' (все адреса в thymeleaf пишутся '@{...}'); -->
+<!-- 'person' -к этому объекту мы будем обращаться и для этого объекта будет создаваться форма (передаем на вход этот атрибут) -->
+<!-- т.е. объект под ключем 'person', кот.мы положили в форму в методе 'newPerson(Model model)' класса 'PeopleController' -->
+<form th:method="POST" th:action="@{/people}" th:object="${person}">
+    <!--'Enter name: ' -текст, кот. будет отображаться пользователю для поля 'name' -->
+    <label for="name">Enter name: </label>
+
+    <!-- Новый синтаксис: указывыаем НАЗВАНИЕ ТОГО ПОЛЯ, КОТ. ЕСТЬ У ОБЪЕКТА КЛАССА 'Person',
+    которому мы назначаем значения в этом поле HTML -формы
+    'id' понадобится для того, чтобы сделать 'label' для этого input (input для пользователя, что вводим в это поле) -->
+    <input type="text" th:field="*{name}" id="name"/>
+    <br/>
+    <!--кнопка-->
+    <input type="submit" value="Create!"/>
+</form>
+
+<br/><br/>
+<a href="http://localhost:8080/people">To page 'people'</a>
+
+</body>
+
+
+</html>

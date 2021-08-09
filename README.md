@@ -6,17 +6,20 @@
 > 
 > ---
 > 
-> > * [видео урока:](https://youtu.be/D58pIymCew4)
+> > * [видео урока:](https://youtu.be/w1FjeTZxQrQ)
 > > 
-> > * [репозиторий базовый:](https://github.com/NeilAlishev/SpringCourse/tree/master/Lesson21_Starter.CRUD_App1)
+> > * [репозиторий базовый:](https://github.com/NeilAlishev/SpringCourse/tree/master/Lesson22_Starter.CRUD_App2)
 > >
-> > * [репозиторий этого урока:](https://github.com/NeilAlishev/SpringCourse/tree/master/Lesson21.CRUD_App1)
+> > * [репозиторий этого урока:](https://github.com/NeilAlishev/SpringCourse/tree/master/Lesson22.CRUD_App2)
+> > ---
+> > * [страничка 'добавить нового чел.'](http://localhost:8080/people/new)
+> > * [страничка 'отобразить всех людей'](http://localhost:8080/people)
 > >    
 > > ---
-> > * [пишем страничку вывода списка 'people' через 'thymeleaf'](https://www.youtube.com/watch?v=D58pIymCew4&t=31m11s)
-> > 
-> > ---
-> > [страничка 'отобразить всех людей'](http://localhost:8080/people) 
+>  
+>  * [пишем страничку вывода списка 'people' через 'thymeleaf'](https://www.youtube.com/watch?v=D58pIymCew4&t=31m11s)
+>  
+>  * [Урок про Redirect и Forward](https://youtu.be/lesNd-lqUiM)
 
    
 ---

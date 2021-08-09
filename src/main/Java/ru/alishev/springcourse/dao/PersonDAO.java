@@ -40,4 +40,12 @@ public class PersonDAO {
         return people.stream().filter(person -> person.getId() == id).findAny().orElse(null);
     }
 
+
+    // добавляем нового чел. в наш список (урок №22)
+    public void save(Person person) {   // ничего не возвращаем.
+        // в форме 'people/new' (метод 'newPerson(Model model)' класса 'PeopleController') мы не будем сами указывать id для нового чел.
+        person.setId(++PEOPLE_COUNT);   // id будем назначать динамически, т.е. пользователь не будет его вводить вручную!
+        people.add(person);
+    }
+
 }

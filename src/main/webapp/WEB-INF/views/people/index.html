@@ -24,8 +24,11 @@
     <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getName()}">user</a>
     <!--эта строка будет нас отправлять на контроллер 'PeopleController' в метод 'show(@PathVariable("id") int id, Model model)'
     Теперь реализуем эту страницу (см. show.html)-->
-
 </div>
+
+<br/><br/>
+<a href="http://localhost:8080/people/new">To page 'new'</a>
+
 
 </body>
 

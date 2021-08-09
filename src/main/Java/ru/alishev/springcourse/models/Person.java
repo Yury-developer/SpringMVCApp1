@@ -7,6 +7,10 @@ public class Person {
     private String name;
 
 
+    public Person() {
+        // NOP
+    }
+
     public Person(int id, String name) {
         this.id = id;
         this.name = name;
