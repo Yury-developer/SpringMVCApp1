@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update person</title>
+</head>
+<body>
+
+<form th:method="PATCH" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}">
+
+    <!--нужно использовать ТОЛЬКО thymeleaf -овский 'th:method="PATCH"' т.к. мы не можем
+    использовать HTML -овский 'method="PATCH"' (метод "PATCH" не поддерживается в HTML)
+    thymeleaf автоматически возмет это значение "PATCH", создаст скрытое поле,
+    и в это скрытое поле поместит значение "PATCH"
+    которое мы сможем прочитать на стороне сервера (Spring) с помощью ФИЛЬТРА
+
+    '(id=${person.getId()})' -помещаем id того чел, кот. пришел в модели
+
+    'th:object="${person}"' эт.атрибут возьмет этот объект ыы,
+    возьмет значение 'name', кот.есть у эт. объекта и вставит его в поле
+    Таким образом, когда мы зайдем на форму - в поле будет НЕ ПУСТО, а текущие значения. --->
+
+    <label for="name">Enter name: </label>
+    <input type="text" th:field="*{name}" id="name"/>
+    <br/>
+    <input type="submit" value="Update!"/>
+</form>
+
+<br/><br/>
+<a href="http://localhost:8080/people/new">To page 'new'</a>
+<br/>
+<a href="http://localhost:8080/people">To page 'people'</a>
+
+</body>
+</html>

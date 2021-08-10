@@ -48,4 +48,17 @@ public class PersonDAO {
         people.add(person);
     }
 
+
+    /*
+    дописываем на этом уроке №23
+     */
+    public void update(int id, Person updatedPerson) {   // 'updatedPerson' -новые значения
+        Person personToBeUpdated = show(id);   // находим 'человека' которого необходимо обновит
+        personToBeUpdated.setName(updatedPerson.getName());   // обновляем у него поле 'name'
+    }
+
+//    public void delete(int id) {
+//        people.removeIf(p -> p.getId() == id);
+//    }
+
 }
