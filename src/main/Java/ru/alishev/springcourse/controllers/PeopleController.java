@@ -51,7 +51,7 @@ public class PeopleController {
     Создадим страницу для редактирования человека.
     Для этого сначала создадим новый метод в контроллере
      */
-  	@GetMapping("/{id}/edit")   // '/people/{id}/edit   -мы попадем в этот метод.'
+  	@GetMapping("/{id}/edit")   // при запросе '/people/{id}/edit   -мы попадем в этот метод.'
   	public String edit(Model model, @PathVariable("id") int id) {   // внедряем модель, извлекаем id, кот. передается в адресе запроса
     	model.addAttribute("person", personDAO.show(id));   // в самой форме уже будут заначения текущего человека, для удобства редактирования
     	return "people/edit";   // HTML -страница для редактирования чел, пред.
@@ -66,6 +66,12 @@ public class PeopleController {
 		// на те, которые пришли из формы, т.е. кот. лежат в объекте "person". Это делаем внутри DAO
 		personDAO.update(id, person);   // после чего реализуем метод 'update'
 		return "redirect:/people";
+	}
+
+	@DeleteMapping("/{id}")   // принимаем в адресе только id удаляемого человека
+	public String delete(@PathVariable("id") int id) {
+		personDAO.delete(id);
+		return "redirect:/people";   // после успешного удаления редирект...
 	}
 
 

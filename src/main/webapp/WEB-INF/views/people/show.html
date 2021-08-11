@@ -10,7 +10,19 @@
 <p th:text="${person.getName()}">VALUE</p>
 <p th:text="${person.getId()}">VALUE</p>
 
+
+<!--кнопку для перехода на страницу редактирования для человека. id получим из модели-->
+<a th:href="@{/people/{id}/edit(id=${person.getId()})}">Edit</a>
+
+<!--кнопку для удаления человека. id получим из модели-->
+<!--с помощью тега<a мы не можем послать DELETE - запрос, поэтому будем посылать с помощью формы-->
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+    <input type="submit" value="Delete"/>
+</form>
+
+
 <br/><br/>
+<hr/><br/>
 <a href="http://localhost:8080/people/new">To page 'new'</a>
 <br/>
 <a href="http://localhost:8080/people">To page 'people'</a>

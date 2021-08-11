@@ -53,12 +53,13 @@ public class PersonDAO {
     дописываем на этом уроке №23
      */
     public void update(int id, Person updatedPerson) {   // 'updatedPerson' -новые значения
-        Person personToBeUpdated = show(id);   // находим 'человека' которого необходимо обновит
-        personToBeUpdated.setName(updatedPerson.getName());   // обновляем у него поле 'name'
+        Person personToBeUpdated = show(id);   // находим 'человека' которого необходимо обновит. Если бы было несколько полей, то обновили бы все поля.
+        personToBeUpdated.setName(updatedPerson.getName());   // обновляем у него поле 'name' тем полем, которое пришло из формы редактирования
     }
 
-//    public void delete(int id) {
-//        people.removeIf(p -> p.getId() == id);
-//    }
+    public void delete(int id) {
+        people.removeIf(p -> p.getId() == id);   // в ArrayList есть метод удаления по предикату, если   '(p -> p.getId() == id)'   true -> то элемент будет удален из нашего списка
+        // проходимся по каждому человеку из нашего списка, у него вызываем '.getId()' и если id равны, то удаляем
+    }
 
 }
