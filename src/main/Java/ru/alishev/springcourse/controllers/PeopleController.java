@@ -52,9 +52,11 @@ public class PeopleController {
     Для этого сначала создадим новый метод в контроллере
      */
   	@GetMapping("/{id}/edit")   // при запросе '/people/{id}/edit   -мы попадем в этот метод.'
-  	public String edit(Model model, @PathVariable("id") int id) {   // внедряем модель, извлекаем id, кот. передается в адресе запроса
+  	public String edit(Model model, @PathVariable("id") int id) {   // внедряем модель, извлекаем id, кот. передается в адресе запроса по ключу "id"
     	model.addAttribute("person", personDAO.show(id));   // в самой форме уже будут заначения текущего человека, для удобства редактирования
+		// в модель внедряем xxtkjdtrf. т.к. хотим, чтобы поля были НЕ пустые, а в полях уже были значения текущего человека.
     	return "people/edit";   // HTML -страница для редактирования чел, пред.
+		// затем создаем новое представление: edit.html
 	}
 
 	/*
@@ -64,7 +66,7 @@ public class PeopleController {
 	public String update(@ModelAttribute("person") Person person, @PathVariable("id") int id) {   // принимаем объект "person" из формы
 		// теперь должны найти чел. из БД с таким id и поменять его значения
 		// на те, которые пришли из формы, т.е. кот. лежат в объекте "person". Это делаем внутри DAO
-		personDAO.update(id, person);   // после чего реализуем метод 'update'
+		personDAO.update(id, person);   // после чего реализуем метод 'update' в DAO 'PersonDAO'
 		return "redirect:/people";
 	}
 
@@ -72,6 +74,7 @@ public class PeopleController {
 	public String delete(@PathVariable("id") int id) {
 		personDAO.delete(id);
 		return "redirect:/people";   // после успешного удаления редирект...
+		// после чего реализуем метод 'delete' в DAO 'PersonDAO'
 	}
 
 

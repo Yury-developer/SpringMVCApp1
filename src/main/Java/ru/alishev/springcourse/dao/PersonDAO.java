@@ -52,8 +52,8 @@ public class PersonDAO {
     /*
     дописываем на этом уроке №23
      */
-    public void update(int id, Person updatedPerson) {   // 'updatedPerson' -новые значения
-        Person personToBeUpdated = show(id);   // находим 'человека' которого необходимо обновит. Если бы было несколько полей, то обновили бы все поля.
+    public void update(int id, Person updatedPerson) {   // 'id' -id существующего человека; 'updatedPerson' -новые значения, кот. мы получили сч формы редактирования человека
+        Person personToBeUpdated = show(id);   // находим 'человека' которого необходимо обновить. Если бы было несколько полей, то обновили бы все поля.
         personToBeUpdated.setName(updatedPerson.getName());   // обновляем у него поле 'name' тем полем, которое пришло из формы редактирования
     }
 
