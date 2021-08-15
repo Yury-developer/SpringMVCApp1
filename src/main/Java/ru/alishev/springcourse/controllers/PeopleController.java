@@ -3,9 +3,12 @@ package ru.alishev.springcourse.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.alishev.springcourse.dao.PersonDAO;
 import ru.alishev.springcourse.models.Person;
+
+import javax.validation.Valid;
 
 
 @Controller
@@ -34,8 +37,28 @@ public class PeopleController {
         return "people/show";
     }
 
+    // Урок 24:
+	// Мы добавляем анотацию '@Valid'. Она используется на самом классе 'Person',
+	// т.е. на самой модели. Теперь на этапе внедрения значений из формы в класс 'Person'
+	// анотацию '@Valid' будет проверяться, что значения соответствуют тем условиям,
+	// которые мы декларировали (описали) в самом классе 'Person'
     @PostMapping()
-    public String create(@ModelAttribute("person") Person person) {
+    public String create(@ModelAttribute("person") @Valid Person person,
+						 BindingResult bindingResult) {   // Если условия нарушаются
+    	  // - то появляется ошибка, которая помещается в отдельный объект
+		  // (ВАЖНО: этот объект должен идти всегда после той модели, которая валидируется.
+		  // того класса, на кот.стоит аннотация '@Valid'.). Здесь будут лежать все ошибки класса 'Person'
+
+		  if (bindingResult.hasErrors()) {
+		  	  /*
+		  	  Если на этом объекте есть ошибки (класса 'Person') - то мы не идем дальше,
+		  	  а возвращаем ту-же самую форму для создания нового человека.
+		  	  НО в этой форме уже будут присутствовать ошибки и они будут показваться
+		  	  с помощью 'thymeleaf', т.к. они внедрились автоматически с помощью аннотации '@Valid'.
+		  	   */
+		  	  return "people/new";
+		  }
+
 		personDAO.save(person);
 		return "redirect:/people";
     }
@@ -47,7 +70,7 @@ public class PeopleController {
 
 
     /*
-    на этов мроке № 23:
+    Урок № 23:
     Создадим страницу для редактирования человека.
     Для этого сначала создадим новый метод в контроллере
      */
@@ -60,13 +83,18 @@ public class PeopleController {
 	}
 
 	/*
-	метод принимает запрос методом 'Patch' на адрес '/people/{id}'
+	Урок № 23: 	метод принимает запрос методом 'Patch' на адрес '/people/{id}'
+	Урок № 24: проделываем тут всё то-же, что и в методе 'create(...)' (см. мыше)
 	 */
 	@PatchMapping("/{id}")
-	public String update(@ModelAttribute("person") Person person, @PathVariable("id") int id) {   // принимаем объект "person" из формы
-		// теперь должны найти чел. из БД с таким id и поменять его значения
-		// на те, которые пришли из формы, т.е. кот. лежат в объекте "person". Это делаем внутри DAO
-		personDAO.update(id, person);   // после чего реализуем метод 'update' в DAO 'PersonDAO'
+	public String update(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
+						 @PathVariable("id") int id) {
+
+		  if (bindingResult.hasErrors()) {
+		  	  return "people/edit";   // возвращаем ту самую страницу для редактирования человека
+		  }
+
+		personDAO.update(id, person);
 		return "redirect:/people";
 	}
 

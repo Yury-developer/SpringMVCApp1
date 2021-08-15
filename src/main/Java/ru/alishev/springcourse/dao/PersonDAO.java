@@ -20,11 +20,10 @@ public class PersonDAO {
     {
         people = new ArrayList<>();
 
-        people.add(new Person(++PEOPLE_COUNT, "Tom"));
-        people.add(new Person(++PEOPLE_COUNT, "Kris"));
-        people.add(new Person(++PEOPLE_COUNT, "Julia"));
-        people.add(new Person(++PEOPLE_COUNT, "Katerina"));
-        people.add(new Person(++PEOPLE_COUNT, "Masha"));
+        people.add(new Person(++PEOPLE_COUNT, "Tom", 24, "tom@mail.ru"));
+        people.add(new Person(++PEOPLE_COUNT, "Bob", 52, "bob@mail.ru"));
+        people.add(new Person(++PEOPLE_COUNT, "Mike", 18, "mike@yahoo.com"));
+        people.add(new Person(++PEOPLE_COUNT, "Katy", 34, "katy@gmail.com"));
     }
 
 
@@ -55,6 +54,8 @@ public class PersonDAO {
     public void update(int id, Person updatedPerson) {   // 'id' -id существующего человека; 'updatedPerson' -новые значения, кот. мы получили сч формы редактирования человека
         Person personToBeUpdated = show(id);   // находим 'человека' которого необходимо обновить. Если бы было несколько полей, то обновили бы все поля.
         personToBeUpdated.setName(updatedPerson.getName());   // обновляем у него поле 'name' тем полем, которое пришло из формы редактирования
+        personToBeUpdated.setAge(updatedPerson.getAge());
+        personToBeUpdated.setEmail(updatedPerson.getEmail());
     }
 
     public void delete(int id) {

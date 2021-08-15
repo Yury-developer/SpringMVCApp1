@@ -1,38 +1,72 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
-
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>New person -ADD</title>
+    <title>New person</title>
 </head>
-
-
 <body>
 
-
-<!-- метод -"POST"; -->
-<!-- будет обращаться и передовать свои данные  на адрес '/people' (все адреса в thymeleaf пишутся '@{...}'); -->
-<!-- 'person' -к этому объекту мы будем обращаться и для этого объекта будет создаваться форма (передаем на вход этот атрибут) -->
-<!-- т.е. объект под ключем 'person', кот.мы положили в форму в методе 'newPerson(Model model)' класса 'PeopleController' -->
 <form th:method="POST" th:action="@{/people}" th:object="${person}">
-    <!--'Enter name: ' -текст, кот. будет отображаться пользователю для поля 'name' -->
     <label for="name">Enter name: </label>
-
-    <!-- Новый синтаксис: указывыаем НАЗВАНИЕ ТОГО ПОЛЯ, КОТ. ЕСТЬ У ОБЪЕКТА КЛАССА 'Person',
-    которому мы назначаем значения в этом поле HTML -формы
-    'id' понадобится для того, чтобы сделать 'label' для этого input (input для пользователя, что вводим в это поле) -->
     <input type="text" th:field="*{name}" id="name"/>
+
+
+    <!--
+    Урок 24: добавим код:
+    Если ошибки есть (условие true) - то они будут показаны рядом с полями.
+    Если ошибок нет - то тэг показываться не будет;
+
+    if="${#fields.hasErrors('name')}"   - условие, при котором будет отображаться
+       (если оно = true) данный тэг (т.е. если есть ошибки в полях для поля 'name');
+    Синтаксис '#fields' -получаем доступ ко всем полям, которые были внедрены в нашем контроллере;
+
+    "errors="*{name}""   - именно ошибка для этого поля 'name' этого объекта 'person' должна отображаться;
+
+    'style="color:red"'   - обычный HTML -атрибут, который есть у тэга <div>;
+    "color:red" -css код, кот. будет применяться к этому тексту.
+
+    Получим тэг, который будет показывать ошибку (если она есть) для поля 'name'. Продублируем его для других полей
+    После чего сделаем все то-же самое для формы обновления человека 'edit.html':
+    -->
+
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+        Name Error
+        ЭТОТ текст мы никогда не увидим. Он будет либо скрыт/ либо заменен 'thymeleaf' на сообщение;
+        We will never see this text. It will either be hidden/ or replaced with 'thymeleaf' to the message;
+    </div>
+
+
     <br/>
-    <!--кнопка-->
+    <label for="age">Enter age: </label>
+    <input type="text" th:field="*{age}" id="age"/>
+
+    <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">
+        Age Error
+        We will never see this text. It will either be hidden/ or replaced with 'thymeleaf' to the message;
+    </div>
+
+
+    <br/>
+    <label for="email">Enter email: </label>
+    <input type="text" th:field="*{email}" id="email"/>
+
+    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+        Email Error
+        We will never see this text. It will either be hidden/ or replaced with 'thymeleaf' to the message;
+    </div>
+
+
+    <br/>
     <input type="submit" value="Create!"/>
 </form>
 
+
 <br/><br/>
-<hr/><br/>
+<hr/>
+<br/>
+<a href="http://localhost:8080/people/new">To page 'new'</a>
+<br/>
 <a href="http://localhost:8080/people">To page 'people'</a>
 
 </body>
-
-
 </html>

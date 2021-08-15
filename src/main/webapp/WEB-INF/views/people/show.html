@@ -1,32 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Человек</title>
+    <title>Show</title>
 </head>
-
 <body>
-<p th:text="${person.getName()}">VALUE</p>
-<p th:text="${person.getId()}">VALUE</p>
+<p th:text="'&nbsp; Name: ' + ${person.getName() + ',&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Age: ' + person.getAge()}">VALUE</p>
+<p th:text="${'&nbsp; Email:   ' + person.getEmail()}">VALUE</p>
+<p th:text="${'&nbsp; Id:   ' + person.getId()}">VALUE</p>
 
-
-<!--кнопку для перехода на страницу редактирования для человека. id получим из модели-->
 <a th:href="@{/people/{id}/edit(id=${person.getId()})}">Edit</a>
 
-<!--кнопку для удаления человека. id получим из модели-->
-<!--с помощью тега<a> мы не можем (невозможно) послать DELETE - запрос, поэтому будем посылать с помощью формы, -->
-<!-- вместо {id} будет вставлен id тоо человека, на странице которого мы находимся. -->
 <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
     <input type="submit" value="Delete"/>
 </form>
 
 
 <br/><br/>
-<hr/><br/>
+<hr/>
+<br/>
 <a href="http://localhost:8080/people/new">To page 'new'</a>
 <br/>
 <a href="http://localhost:8080/people">To page 'people'</a>
-</body>
 
+</body>
 </html>
