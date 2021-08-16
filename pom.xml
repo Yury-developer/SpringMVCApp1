@@ -75,6 +75,15 @@
       <version>42.2.18</version>
     </dependency>
 
+    <!--Урок № 27: добавляем JdbcTemplate -->
+    <!--Эта зависимость предоставляет нам класс JdbcTemplate -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+
     <!--
       Добавляем эту зависимость в уроке 16
       (Spring Framework. Урок 16: Spring MVC. Конфигурация с помощью Java кода.)

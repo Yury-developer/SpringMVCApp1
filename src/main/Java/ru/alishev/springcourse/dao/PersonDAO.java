@@ -1,166 +1,99 @@
 package ru.alishev.springcourse.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.alishev.springcourse.models.Person;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 
 /*
- В этом уроке №26
+ В уроке №26
   1. реализуеем метод save(Person person) с использованием PreparedStatement  (избежим SQL иньекций)
   2. реализуем оставшиеся методы в DAO
  */
 @Component
 public class PersonDAO {
-//    private static int PEOPLE_COUNT; // счетчик людей для формирования 'id'
 
-    /*
-    Эти данные обычно храняться в отдельном файле .properties
-    В экспериментальных целях расположим данные доступа к DB в статических переменных.
-     */
-    private static final String URL = "jdbc:postgresql://localhost:5434/first_db";
-    private static final String USERNAME = "postgres";
-    private static final String PASSWORD = "postgres";
+    // Spring Framework. Урок 27: JdbcTemplate.
+    private final JdbcTemplate jdbcTemplate;
 
-    private static Connection connection;   // соединение с помощью JDBC с нашей DB
-
-    static {   // инициализируем нашу статическую переменную в статическом блоке
-        try {
-            Class.forName("org.postgresql.Driver");   // подгружаем класс с нашим JDBC - драйвером
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-            try {
-                connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            } catch (SQLException throwables) {
-                // проблема работы с JDBC:
-                // 1. Очень низкоуровневый, все команды мы вынуждены писать вручную;
-                // 2.любая ошибка при работе с DB - это SQLException,
-                // т.е. мы не можем понять какая именно ошибка произошла (добавление, удаление...)
-            throwables.printStackTrace();
-        }
+    // Spring Framework. Урок 27: JdbcTemplate.
+    @Autowired   // внедрим поле 'jdbcTemplate' используя внедрение с помощью конструктора
+    public PersonDAO(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
 
     /*
-    На этом уроке № 26 мы не будем трогать этот метод, т.к. тут статический SQL. мы не берем данные с формы (от пользователя)
-    В остальных методах DAO будем использовать PreparedStatement
+    На этом уроке № 27 мы полностью удаляем весь код, для подключения DB, т.к. делаем это в классе 'SpringConfig' используя метод 'jdbcTemplate()'
      */
+
+
+    // На этом уроке № 27 мы полностью переписали весь код метода
     public List<Person> index() {
-        List<Person> people = new ArrayList<>();   // будем сюда ложить людей, которых будем брать из DB
+        return jdbcTemplate.query("SELECT * FROM Person", new PersonMapper());
+        /*
+        1-й аргумент это наш SQL -запрос 'SELECT * FROM Person';
+        2-й аргумент это - RowMapper ' new BeanPropertyRowMapper<>(Person.class)'.
+           RowMapper - это такой объект,который отображает строки из таблицы в наши сущности,
+           т.е. каждую строку, полученную в результате этого запроса из таблицы 'Person'
+           он отобразит в объект класса 'Person'.
 
-        try {
-            Statement statement = connection.createStatement(); // тот объект, который содержит в себе сам запрос с DB
-
-            String SQL = "SELECT * FROM Person";   // наш SQL -запрос, кот. будет делаться на нашем DAO
-            ResultSet resultSet = statement.executeQuery(SQL);  // выполняет запрос к DB (НЕ изм. ее сост.) и возвращает какаие-то данные..
-            /*
-            выполняет наш запрос, возвращаются строки, помещаем их в ResultSet -это результат обращения к DB.
-            Вернутся строки. Теперь нужно пройтись по всем этим строкам и вручную их перевести в Java - объекты
-             */
-
-            while(resultSet.next()) {
-                Person person = new Person();
-
-                person.setId(resultSet.getInt("id"));
-                person.setName(resultSet.getString("name"));
-                person.setAge(resultSet.getInt("age"));
-                person.setEmail(resultSet.getString("email"));
-
-                people.add(person);
-            }
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return people;
+           Этот   RowMapper   мы должны реализовать сами.
+           Реализовали класс 'PersonMapper'
+         */
     }
 
 
-    // На этом уроке № 26 мы переписали этот метод.
+    // На этом уроке № 27 мы переписали этот метод используя наш JdbcTemplate
     public void save(Person person) {   // ничего не возвращаем.
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Person VALUES(1, ?, ?, ?)");  // далее вместо '1' будем автоматически генерировать id
-
-            preparedStatement.setString(1, person.getName());
-            preparedStatement.setInt(2, person.getAge());
-            preparedStatement.setString(3, person.getEmail());
-
-            preparedStatement.executeUpdate();  // выполняет запрос к BD (изменяе ее состоние)
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        jdbcTemplate.update("INSERT INTO Person VALUES(1, ?, ?, ?)",
+                // далее мы вставляем массив из ЛЮБОГО количества элементов (Object... args) т.е. используем   varargs
+                person.getName(),
+                person.getAge(),
+                person.getEmail());
     }
 
 
-    // На этом уроке № 26 мы переписали этот метод.
+    // На этом уроке № 27 мы переписали этот метод используя наш JdbcTemplate
     public Person show(int id) {
-        Person person = null;   // создадим указатель
+        return jdbcTemplate.query("SELECT * FROM Person WHERE id=?", new Object[]{id}, new PersonMapper())
+                .stream().findAny().orElse(null);
+        /*
+        В   jdbcTemplate   всегда по умолчаню используется PreparedStatement.
+        1-й аргумент: SQL -запрос 'ELECT * FROM Person WHERE id=?'
+        2-й аргумент: массив из значений, которые будут подставлены в наш PreparedStatement в качестве '?'
+        3-й аргумент: такой-же   PersonMapper   какой использовали в методе   index()
+           '.stream().findAny().orElse(null)'   ищет объект в списке,
+           если объект найден - то он будет возвращен, если нет - то вернется   null
+           В реальном приложении вернем не   null   . а объект, который вернет строку с названием ошибки
+           например:   '.stream().findAny().orElse(new Error("Человек с таким id не найден."))'
 
-        try {
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement("SELECT * FROM Person WHERE id=?");
-
-            preparedStatement.setInt(1, id);
-
-            ResultSet resultSet = preparedStatement.executeQuery();   // по данному запросу вернулись ВСЕ строки, которые были получены по этому запросу из DB
-
-            resultSet.next();   // запросим ТОЛЬКО ПЕРВУЮ строчку из ResultSet
-            // Если таких людей с указанным id будет несколько, то возтмем только первого, который вернулся
-
-            person = new Person();   // поместим эту строчку в объект класса Person
-
-            person.setId(resultSet.getInt("id"));
-            person.setName(resultSet.getString("name"));
-            person.setEmail(resultSet.getString("email"));
-            person.setAge(resultSet.getInt("age"));
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return person;
+           .findAny() возвращает объект типа 'Optional<T>' - это такой объект, кот. инкапсулирует то,
+           что он может существовать, а может не существовать. Т.е. в этом объекте либо чежит (человек), либо ничего не лежит.
+           соответственно в   .orElse   указываем что возвращаем, если там ничего не лежит.
+         */
     }
 
 
-    // На этом уроке № 26 мы переписали этот метод.
+    // На этом уроке № 27 мы переписали этот метод используя наш JdbcTemplate
     public void update(int id, Person updatedPerson) {
-        try {
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement("UPDATE Person SET name=?, age=?, email=? WHERE id=?");
-
-            preparedStatement.setString(1, updatedPerson.getName());
-            preparedStatement.setInt(2, updatedPerson.getAge());
-            preparedStatement.setString(3, updatedPerson.getEmail());
-            preparedStatement.setInt(4, id);   // id того чел. кот-го мы будем обновлять
-            // Если в табл. будет несколоько чел. с одинаковыми id, то у всех их будут обновлены значения в заданных колонках
-
-            preparedStatement.executeUpdate();   // Если не выполнить executeUpdate, то созданный запрос не будет выполнен!
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        jdbcTemplate.update("UPDATE Person SET name=?, age=?, email=? WHERE id=?",
+                // далее мы вставляем массив из ЛЮБОГО количества элементов (Object... args) т.е. используем   varargs
+                updatedPerson.getName(),
+                updatedPerson.getAge(),
+                updatedPerson.getEmail(),
+                id);
     }
 
 
-    // На этом уроке № 26 мы переписали этот метод.
+    // На этом уроке № 27 мы переписали этот метод используя наш JdbcTemplate
     public void delete(int id) {
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = connection.prepareStatement("DELETE FROM Person WHERE id=?");
-
-            preparedStatement.setInt(1, id);
-
-            preparedStatement.executeUpdate();   // Если не выполнить executeUpdate, то созданный запрос не будет выполнен!
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        jdbcTemplate.update("DELETE FROM Person WHERE id=?",
+                id);
     }
 
 }
