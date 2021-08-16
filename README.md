@@ -1,15 +1,15 @@
-# урок 25
+# урок 26
 
 > ---
 > 
-> ## Spring Framework. Урок 25: JDBC API. Базы данных.
+> ## Spring Framework. Урок 26: SQL инъекции. PreparedStatement. JDBC API.
 > ---
 > 
-> > * [видео урока:](https://youtu.be/5LHCmvzugQM)
+> > * [видео урока:](https://youtu.be/Y2sRuCUpJ78)
 > > 
-> > * [репозиторий стартового проекта:](https://github.com/NeilAlishev/SpringCourse/tree/master/Lesson25_Starter.SpringJDBC)
+> > * [репозиторий стартового проекта:](https://github.com/NeilAlishev/SpringCourse/tree/master/Lesson26_Starter.SpringJDBC2)
 > >
-> > * [репозиторий этого урока:](https://github.com/NeilAlishev/SpringCourse/tree/master/Lesson25.SpringJDBC)
+> > * [репозиторий этого урока:](https://github.com/NeilAlishev/SpringCourse/tree/master/Lesson26.SpringJDBC2)
 > >
 > >    
 > > ---
