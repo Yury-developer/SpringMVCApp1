@@ -9,11 +9,13 @@ import java.util.List;
 
 
 /*
- В этом уроке №25 подключим базу данных DB: PostgreSQL
+ В этом уроке №26
+  1. реализуеем метод save(Person person) с использованием PreparedStatement  (избежим SQL иньекций)
+  2. реализуем оставшиеся методы в DAO
  */
 @Component
 public class PersonDAO {
-    private static int PEOPLE_COUNT; // счетчик людей для формирования 'id'
+//    private static int PEOPLE_COUNT; // счетчик людей для формирования 'id'
 
     /*
     Эти данные обычно храняться в отдельном файле .properties
@@ -45,11 +47,9 @@ public class PersonDAO {
 
 
     /*
-    На этом уроке № 25 мы реализуем 2 метода:
-       index()   - будет возвращать всех людей, будет брать из из базы данных и возвращать их в представление.
-       save(Person person)   - будет записывать нового человека в нашу базу данных
+    На этом уроке № 26 мы не будем трогать этот метод, т.к. тут статический SQL. мы не берем данные с формы (от пользователя)
+    В остальных методах DAO будем использовать PreparedStatement
      */
-    // просто возвращает список из людей, который потом с помощью thymeleaf мы отобразим в браузере
     public List<Person> index() {
         List<Person> people = new ArrayList<>();   // будем сюда ложить людей, которых будем брать из DB
 
@@ -73,52 +73,94 @@ public class PersonDAO {
 
                 people.add(person);
             }
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return people;
     }
 
-    public void save(Person person) {   // ничего не возвращаем.
-//        person.setId(++PEOPLE_COUNT);   // id будем назначать динамически, т.е. пользователь не будет его вводить вручную!
-//        people.add(person);
-        try {
-            Statement statement = connection.createStatement();
-            // В эту строку нужно внедрять значения из объекта 'Person'. Это очень черевато и так делать нехорошо
-            String SQL = "INSERT INTO Person VALUES(" + 1 + ",'" + person.getName() +
-                    "'," + person.getAge() + ",'" + person.getEmail() + "')";
 
-            statement.executeUpdate(SQL);  // выполняет запрос к BD (изменяе ее состоние) и никаких данных не возвращает!
+    // На этом уроке № 26 мы переписали этот метод.
+    public void save(Person person) {   // ничего не возвращаем.
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Person VALUES(1, ?, ?, ?)");  // далее вместо '1' будем автоматически генерировать id
+
+            preparedStatement.setString(1, person.getName());
+            preparedStatement.setInt(2, person.getAge());
+            preparedStatement.setString(3, person.getEmail());
+
+            preparedStatement.executeUpdate();  // выполняет запрос к BD (изменяе ее состоние)
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
 
-
-
-    // на этом уроке № 25 этот метод закоментим, трогать его не будем.
-    // возвращает 1-го человека по id
+    // На этом уроке № 26 мы переписали этот метод.
     public Person show(int id) {
-//        // находим человека с этим id, если такого человека нет - то возвращаем null
-//        return people.stream().filter(person -> person.getId() == id).findAny().orElse(null);
-        return null;
+        Person person = null;   // создадим указатель
+
+        try {
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement("SELECT * FROM Person WHERE id=?");
+
+            preparedStatement.setInt(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();   // по данному запросу вернулись ВСЕ строки, которые были получены по этому запросу из DB
+
+            resultSet.next();   // запросим ТОЛЬКО ПЕРВУЮ строчку из ResultSet
+            // Если таких людей с указанным id будет несколько, то возтмем только первого, который вернулся
+
+            person = new Person();   // поместим эту строчку в объект класса Person
+
+            person.setId(resultSet.getInt("id"));
+            person.setName(resultSet.getString("name"));
+            person.setEmail(resultSet.getString("email"));
+            person.setAge(resultSet.getInt("age"));
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return person;
     }
 
 
+    // На этом уроке № 26 мы переписали этот метод.
+    public void update(int id, Person updatedPerson) {
+        try {
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement("UPDATE Person SET name=?, age=?, email=? WHERE id=?");
 
-    // на этом уроке № 25 этот метод закоментим, трогать его не будем.
-    public void update(int id, Person updatedPerson) {   // 'id' -id существующего человека; 'updatedPerson' -новые значения, кот. мы получили сч формы редактирования человека
-//        Person personToBeUpdated = show(id);   // находим 'человека' которого необходимо обновить. Если бы было несколько полей, то обновили бы все поля.
-//        personToBeUpdated.setName(updatedPerson.getName());   // обновляем у него поле 'name' тем полем, которое пришло из формы редактирования
-//        personToBeUpdated.setAge(updatedPerson.getAge());
-//        personToBeUpdated.setEmail(updatedPerson.getEmail());
+            preparedStatement.setString(1, updatedPerson.getName());
+            preparedStatement.setInt(2, updatedPerson.getAge());
+            preparedStatement.setString(3, updatedPerson.getEmail());
+            preparedStatement.setInt(4, id);   // id того чел. кот-го мы будем обновлять
+            // Если в табл. будет несколоько чел. с одинаковыми id, то у всех их будут обновлены значения в заданных колонках
+
+            preparedStatement.executeUpdate();   // Если не выполнить executeUpdate, то созданный запрос не будет выполнен!
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
-    // на этом уроке № 25 этот метод закоментим, трогать его не будем.
+
+    // На этом уроке № 26 мы переписали этот метод.
     public void delete(int id) {
-//        people.removeIf(p -> p.getId() == id);   // в ArrayList есть метод удаления по предикату, если   '(p -> p.getId() == id)'   true -> то элемент будет удален из нашего списка
-        // проходимся по каждому человеку из нашего списка, у него вызываем '.getId()' и если id равны, то удаляем
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("DELETE FROM Person WHERE id=?");
+
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.executeUpdate();   // Если не выполнить executeUpdate, то созданный запрос не будет выполнен!
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
 }
