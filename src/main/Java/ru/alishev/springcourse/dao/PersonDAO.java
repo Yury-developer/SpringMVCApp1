@@ -34,7 +34,7 @@ public class PersonDAO {
 
     // На этом уроке № 27 мы полностью переписали весь код метода
     public List<Person> index() {
-        return jdbcTemplate.query("SELECT * FROM Person", new PersonMapper());
+        return jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<>(Person.class));
         /*
         1-й аргумент это наш SQL -запрос 'SELECT * FROM Person';
         2-й аргумент это - RowMapper ' new BeanPropertyRowMapper<>(Person.class)'.
@@ -42,8 +42,8 @@ public class PersonDAO {
            т.е. каждую строку, полученную в результате этого запроса из таблицы 'Person'
            он отобразит в объект класса 'Person'.
 
-           Этот   RowMapper   мы должны реализовать сами.
-           Реализовали класс 'PersonMapper'
+           Этот   BeanPropertyRowMapper   уже реализован, стандартный класс.
+           'Person.class'   - тот класс, К ОБЪЕКТАМ КОТОРОГО БУДЕТ ПРОИЗВОДИТЬСЯ ПЕРЕВОД СТРОК ИЗ НАШЕЙ ТАБЛИЦЫ
          */
     }
 
@@ -60,7 +60,7 @@ public class PersonDAO {
 
     // На этом уроке № 27 мы переписали этот метод используя наш JdbcTemplate
     public Person show(int id) {
-        return jdbcTemplate.query("SELECT * FROM Person WHERE id=?", new Object[]{id}, new PersonMapper())
+        return jdbcTemplate.query("SELECT * FROM Person WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class))
                 .stream().findAny().orElse(null);
         /*
         В   jdbcTemplate   всегда по умолчаню используется PreparedStatement.
