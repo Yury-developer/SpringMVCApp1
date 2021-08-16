@@ -67,6 +67,14 @@
       <version>6.1.6.Final</version>
     </dependency>
 
+    <!--Урок № 25: добавляем PostgreSQL JDBC Driver -драйвер, с помощью которого будем устанавливать связь с DB -->
+    <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.2.18</version>
+    </dependency>
+
     <!--
       Добавляем эту зависимость в уроке 16
       (Spring Framework. Урок 16: Spring MVC. Конфигурация с помощью Java кода.)
